@@ -94,13 +94,16 @@ def get_related_courses_and_rates(user_id, is_train=False):
 
 
 def main():
-    rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1, is_train=False)
+    print('testing...')
+    rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=20, is_train=False)
+    print ','.join(map(str,rl_cs_s))
+    print ','.join(map(str,prd_c_r))
     for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
         print rl_cs_
         print prd_c_r[rl_cs_id]
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
 
 # rate_data_ = [[5.0, 4.0, 5.0, 5.0], [5.0, 5.0, 4.0, 4.0], [5.0, 5.0, 5.0, 5.0], [2.0, 1.0, 2.0, 2.0],

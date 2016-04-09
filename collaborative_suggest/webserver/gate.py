@@ -3,6 +3,7 @@ import sys
 from flask import Flask,render_template, request,json
 import ast
 from collaborative_suggest.statistic import suggester
+from collaborative_suggest.utils import db_connection
 app = Flask(__name__)
 
 
@@ -139,12 +140,13 @@ def get_user_profile():
 def get_course_detail():
     try:
         course_id = request.args.get('course_id')
-        name = 'Speaking'
-        numberclass = 10
-        startcourse = '2016-10-20'
-        endcourse = '2016-11-20'
-        category = 'English'
-        description = 'Interesting course'
+        # name = 'Speaking'
+        # numberclass = 10
+        # startcourse = '2016-10-20'
+        # endcourse = '2016-11-20'
+        # category = 'English'
+        # description = 'Interesting course'
+        name, numberclass, startcourse, endcourse, category, description = db_connection.get_course_detail(course_id)
         output = {'course_id': course_id, 'name': name, 'numberclass': numberclass,
                   'startcourse': startcourse, 'endcourse': endcourse, 'category': category,
                   'description': description}

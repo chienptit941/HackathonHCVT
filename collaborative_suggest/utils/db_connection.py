@@ -11,4 +11,68 @@ def get_connection(host='192.168.1.216', user='root', password='toor', db_name='
     return db_connection
 
 
+def get_course_detail(course_id):
+    sql = 'SELECT s.name, s.numberclass, s.startcourse, s.endcourse, c.name, s.description \
+    FROM hcvt.tblsubjects s JOIN hcvt.tblcategory c \
+    ON s.tblcategory_id = c.id \
+    WHERE s.id=' + str(course_id) + ';'
+    # print sql
+    cursor = get_connection().cursor()
+    results = []
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    except Exception as ex:
+        print 'Exception: ', ex
+        pass
+    parsed_results = ['', '', '', '', '', '']
+    if len(results) > 0:
+        result = results[0]
+        name = str_encode(result[0])
+        numberclass = str(result[1])
+        startcourse = str(result[2])
+        endcourse = str(result[3])
+        category = str_encode(result[4])
+        description = str_encode(result[5])
+        parsed_results = [name, numberclass, startcourse, endcourse, category, description]
 
+    return parsed_results
+
+def get_user_profile(user_id):
+    sql = 'SELECT s.name, s.numberclass, s.startcourse, s.endcourse, c.name, s.description \
+    FROM hcvt.tblsubjects s JOIN hcvt.tblcategory c \
+    ON s.tblcategory_id = c.id \
+    WHERE s.id=' + str(course_id) + ';'
+    # print sql
+    cursor = get_connection().cursor()
+    results = []
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    except Exception as ex:
+        print 'Exception: ', ex
+        pass
+    parsed_results = ['', '', '', '', '', '']
+    if len(results) > 0:
+        result = results[0]
+        name = str_encode(result[0])
+        numberclass = str(result[1])
+        startcourse = str(result[2])
+        endcourse = str(result[3])
+        category = str_encode(result[4])
+        description = str_encode(result[5])
+        parsed_results = [name, numberclass, startcourse, endcourse, category, description]
+
+    return parsed_results
+
+
+def str_encode(string):
+    try:
+        string = string.encode('utf-8')
+    except Exception as inst:
+        print inst
+        pass
+    return string
+
+test_r = get_course_detail(course_id=1)
+print test_r
