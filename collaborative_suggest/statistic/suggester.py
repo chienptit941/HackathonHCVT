@@ -45,3 +45,4 @@ def predict_one(u_id, rate_data, item_id, k=5):
     u, neighbors, neighbor_distances, neighbor_rate_for_i = data_prepare(u_id, rate_data, item_id, k)
     r_u_i = predict_r_u_i(u, neighbors, neighbor_distances, neighbor_rate_for_i)
     return r_u_i
+
