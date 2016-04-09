@@ -4,7 +4,7 @@ from rnn_predict import Predict
 import data_helpers
 
 
-def predict_one(u_id, rate_data, item_id):
+def predict_one(u_id, rate_data, item_id, user_id='', is_train=False):
     if u_id < (len(rate_data) - 1):
         train_data = rate_data[:u_id] + rate_data[u_id + 1:]
     else:
@@ -25,6 +25,7 @@ def predict_one(u_id, rate_data, item_id):
     label_data = np.array(label_data)
     batch_size = len(input_data)
     out_dir = '/home/cao/workspace/HackathonHCVT/collaborative_suggest/regression/models'
+    out_dir += str(user_id)
     # import random
     # random_node_id = random.randint(0, 100)
     # out_dir += '/' + str(random_node_id)
@@ -33,9 +34,10 @@ def predict_one(u_id, rate_data, item_id):
     #                         training_iters=1000, out_dir='./models',
     #                         checkpoint_step=1000)
     # new_train_model.run(input_data=input_data, label_data=label_data)
-    new_train = Train(learning_rate=0.001, n_hidden=n_hidden, batch_size=batch_size, training_iters=1000, out_dir=out_dir,
-                      checkpoint_step=1000)
-    new_train.run(input_data, label_data)
+    if is_train:
+        new_train = Train(learning_rate=0.001, n_hidden=n_hidden, batch_size=batch_size, training_iters=1000, out_dir=out_dir,
+                          checkpoint_step=1000)
+        new_train.run(input_data, label_data)
 
     u_data = rate_data[u_id]
     predict_data = [u_data[:item_id] + u_data[item_id + 1:]]

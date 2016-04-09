@@ -74,7 +74,7 @@ def get_related_courses(user_id):
     return related_courses
 
 
-def get_related_courses_and_rates(user_id):
+def get_related_courses_and_rates(user_id, is_train=False):
     related_courses = get_related_courses(user_id)
     print 'related courses' , related_courses
     predict_course_rates = []
@@ -85,7 +85,8 @@ def get_related_courses_and_rates(user_id):
         item_id = len(rate_data[0]) - 1
         u_id = 0
         predicted_rate = predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
-        # recurrent_predict_rate = rnn_app.predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
+        # recurrent_predict_rate = rnn_app.predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id,
+        #                                              user_id=user_id, is_train=is_train)
         # print('=' * 50)
         # print(recurrent_predict_rate)
         predict_course_rates.append(predicted_rate)
@@ -93,7 +94,7 @@ def get_related_courses_and_rates(user_id):
 
 
 def main():
-    rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1)
+    rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1, is_train=False)
     for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
         print rl_cs_
         print prd_c_r[rl_cs_id]
