@@ -1,18 +1,19 @@
 package com.example.ristu.hackathon_recommendator.user;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
-import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.subject.SubjectAdapter;
+import com.example.ristu.hackathon_recommendator.model.UserDTO;
+import com.example.ristu.hackathon_recommendator.subject.SubjectActivity;
 import com.example.ristu.hackathon_recommendator.util.AppStorage;
 import com.example.ristu.hackathon_recommendator.util.Constants;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
@@ -27,22 +28,24 @@ import java.util.List;
 /**
  * Created by ristu on 4/10/2016.
  */
-public class UserActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity implements IUserActivity {
     private TextView name;
     private TextView name_text;
     private TextView interest;
     private TextView interest_text;
+    private Button suggest;
 
     private static final String TAG = "SubjectActivity";
     private RecyclerView list;
     private UserAdapter adapter;
     private RecyclerView.LayoutManager listLayoutManager;
+    private AppStorage appStorage;
     private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initView();
         view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
         setContentView(view);
 
@@ -51,17 +54,34 @@ public class UserActivity extends AppCompatActivity {
         listLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(listLayoutManager);
 
-        adapter = new SubjectAdapter(this);
+        adapter = new UserAdapter(this);
         list.setAdapter(adapter);
 
 
 
 //        appStorage.subjectDTOs = SERVER RESPONSE
-        String link = "http://" + Constants.IP + ":8080/get_suggested_courses";
+        String link = "http://" + Constants.IP + ":8080/user_profile";
         String query = "?user_id=a";
         String url = link + query;
-        new GettingData().execute(url, "start");
-        adapter.setData(appStorage.subjectDTOs);
+        new GettingData().execute(url);
+        adapter.setData(appStorage.subjectDTOs2);
+    }
+
+    private void initView() {
+        suggest = (Button) findViewById(R.id.user_profile_button);
+        name = (TextView) findViewById(R.id.user_profile_name);
+        name_text = (TextView) findViewById(R.id.user_profile_name_text);
+        interest = (TextView) findViewById(R.id.user_profile_interest);
+        interest_text = (TextView) findViewById(R.id.user_profile_interest_text);
+        suggest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), SubjectActivity.class);
+                intent.putExtra("user_id","a");
+                startActivity(intent);
+            }
+        });
     }
 
     public class GettingData extends AsyncTask<String, JSONObject, Void>
@@ -97,25 +117,24 @@ public class UserActivity extends AppCompatActivity {
             //ta cập nhật giao diện ở đây:
             JSONObject jsonObj=values[0];
             try {
-                List<SubjectDTO> subjects = new ArrayList();
-                if(jsonObj.has("course_ids") && jsonObj.has("courses")) {
-                    StringBuilder ids = new StringBuilder(jsonObj.getString("courses").toString());
-                    StringBuilder sss = new StringBuilder(jsonObj.getString("courses").toString());
-                    sss.replace(0, 1, "");
-                    ids.replace(0, 1, "");
-                    sss.replace(sss.length() - 1, sss.length(), "");
-                    ids.replace(ids.length() - 1, ids.length(), "");
-                    String[] ssses = sss.toString().replace('"',' ').split(",");
-                    String[] idses = ids.toString().replace('"',' ').split(",");
-                    for (int i = 0; i < ssses.length; ++i) {
-                        SubjectDTO subj = new SubjectDTO(idses[i].trim(), ssses[i].trim());
-                        subj.isRegister=false;
-                        Log.e(TAG, "creating " + subj.id + " " + subj.name);
-                        subjects.add(subj);
+                List<UserDTO> subjects = new ArrayList();
+                if(jsonObj.has("name"))
+                    name.setText(jsonObj.getString("name"));
+                if(jsonObj.has("interest"))
+                    name.setText(jsonObj.getString("interest").replace('"', ' ').replace('[', ' ').replace(']', ' ').trim());
+
+                if(jsonObj.has("rates")) {
+                    ArrayList<UserDTO> arr = new ArrayList<>();
+                    String[] rates = jsonObj.getString("rate").split(",");
+
+                    for (String item: rates) {
+                        String[] kv = item.replace('"', ' ').replace('{', ' ').replace('}', ' ').split(":");
+                        UserDTO temp = new UserDTO(kv[0], kv[1]);
+                        arr.add(temp);
                     }
-                    appStorage.subjectDTOs = subjects;
+                    appStorage.subjectDTOs2 = arr;
                 }
-                adapter.setData(appStorage.subjectDTOs);
+                adapter.setData(appStorage.subjectDTOs2);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -125,7 +144,6 @@ public class UserActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub
-            adapter.setData(appStorage.subjectDTOs);
             super.onPostExecute(result);
         }
     }

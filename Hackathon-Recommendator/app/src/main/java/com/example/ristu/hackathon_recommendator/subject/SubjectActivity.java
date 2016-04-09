@@ -1,5 +1,6 @@
 package com.example.ristu.hackathon_recommendator.subject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -36,6 +37,7 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
 
         view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
         setContentView(view);
@@ -54,7 +56,7 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
 
 //        appStorage.subjectDTOs = SERVER RESPONSE
         String link = "http://" + Constants.IP + ":8080/get_suggested_courses";
-        String query = "?user_id=a";
+        String query = "?user_id=" + intent.getStringExtra("user_id");
         String url = link + query;
         new GettingData().execute(url, "start");
         adapter.setData(appStorage.subjectDTOs);

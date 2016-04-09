@@ -1,6 +1,7 @@
 package com.example.ristu.hackathon_recommendator.util;
 
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
+import com.example.ristu.hackathon_recommendator.model.UserDTO;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class AppStorage {
     private static AppStorage mInstance = null;
 
     public List<SubjectDTO> subjectDTOs;
+    public List<UserDTO> subjectDTOs2;
 
     private AppStorage() {
     }

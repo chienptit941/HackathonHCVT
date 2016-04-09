@@ -4,12 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
-import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.subject.ISubjectActivity;
+import com.example.ristu.hackathon_recommendator.model.UserDTO;
 
 import java.util.List;
 
@@ -17,14 +15,14 @@ import java.util.List;
  * Created by ristu on 4/10/2016.
  */
 public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private List<SubjectDTO> subjectDTOs;
-    private ISubjectActivity listenner;
+    private List<UserDTO> subjectDTOs;
+    private IUserActivity listenner;
 
-    public SubjectAdapter(ISubjectActivity listenner) {
+    public UserAdapter(IUserActivity listenner) {
         this.listenner = listenner;
     }
 
-    public void setData(List<SubjectDTO> subjectDTOs) {
+    public void setData(List<UserDTO> subjectDTOs) {
         this.subjectDTOs = subjectDTOs;
         notifyDataSetChanged();
     }
@@ -38,36 +36,12 @@ public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final SubjectDTO subjectDTO = subjectDTOs.get(position);
+        final UserDTO subjectDTO = subjectDTOs.get(position);
         final String name = subjectDTO.name;
-        final boolean isRegister = subjectDTO.isRegister;
+        final String rate= subjectDTO.rate;
 
         holder.name.setText(name);
-        holder.status.setText("");
-
-//        if (isRegister) {
-        holder.rate.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.rate.setVisibility(View.INVISIBLE);
-//        }
-
-        holder.rate.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listenner.showRate(subjectDTO);
-                    }
-                }
-        );
-
-        holder.view.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listenner.showSubjectDetail(subjectDTO);
-                    }
-                }
-        );
+        holder.rate.setText(rate);
     }
 
     @Override
@@ -82,15 +56,13 @@ public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public TextView name;
-        public TextView status;
-        public Button rate;
+        public TextView rate;
 
         public ViewHolder(View v) {
             super(v);
             view = v;
-            name = (TextView) view.findViewById(R.id.user_subject_name);
-            status = (TextView) view.findViewById(R.id.user_subject_status);
-            rate = (Button) view.findViewById(R.id.user_subject_rate);
+            name = (TextView) view.findViewById(R.id.user_profile_subject_name);
+            rate = (TextView) view.findViewById(R.id.user_profile_subject_rate);
         }
     }
 }
