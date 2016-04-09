@@ -28,16 +28,16 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/subject_detail_describe"
+                android:id="@+id/subject_detail_numberclass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="describe"
+                android:text="teacher"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/subject_detail_time"
+                android:id="@+id/subject_detail_startcourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -47,7 +47,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/subject_detail_location"
+                android:id="@+id/subject_detail_endcourse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -57,12 +57,12 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/subject_detail_teacher"
+                android:id="@+id/subject_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
-                android:text="teacher"
+                android:text="description"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 

@@ -42,6 +42,14 @@ public class RateDialog extends Dialog {
         });
     }
 
+    public void setListener(IUserActivity listenner) {
+        this.listenner = listenner;
+    }
+
+    public void setData(SubjectDTO subjectDTO) {
+        this.subjectDTO = subjectDTO;
+
+        holder.name.setText(subjectDTO.name);
     }
 
     public static class ViewHolder {

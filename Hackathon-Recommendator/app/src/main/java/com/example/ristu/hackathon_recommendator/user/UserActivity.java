@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.ristu.hackathon_recommendator.R;
+import com.example.ristu.hackathon_recommendator.dialog.RateDialog;
+import com.example.ristu.hackathon_recommendator.dialog.SubjectDetailDialog;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
 import com.example.ristu.hackathon_recommendator.util.AppStorage;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
@@ -19,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserActivity extends AppCompatActivity implements IUserActivity {
     private static final String TAG = "UserActivity";
@@ -89,21 +93,24 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
             try {
                 //kiểm tra xem có tồn tại thuộc tính courses hay không
                 Log.e(TAG, "begin");
+                List<SubjectDTO> subjects = new ArrayList();
                 if(jsonObj.has("courses")) {
                     Log.e(TAG, "middle");
                     StringBuilder sss = new StringBuilder(jsonObj.getString("courses").toString());
-                    sss.replace(0,1,"");
+                    sss.replace(0, 1, "");
                     sss.replace(sss.length() - 1, sss.length(), "");
                     Log.e(TAG, sss.toString());
                     String[] ssses = sss.toString().replace('"',' ').split(",");
+                    Log.e(TAG, "Adding " + ssses[0] + ssses[1] + ssses[2] + ssses[3]);
                     for (int i = 0; i < ssses.length; ++i) {
-                        Log.e(TAG, "Adding " + ssses[i]);
-                        SubjectDTO subj = new SubjectDTO(ssses[i]);
+                        SubjectDTO subj = new SubjectDTO(ssses[i].trim());
                         Log.e(TAG, "creating " + subj.name);
-                        appStorage.subjectDTOs.add(subj);
-                        Log.e(TAG, "fail");
+                        subjects.add(subj);
                     }
+                    Log.e(TAG, "in " + subjects.get(0) + " " + subjects.get(1) + " " + subjects.get(2) + " " + subjects.get(3));
+                    appStorage.subjectDTOs = subjects;
                 }
+                adapter.setData(appStorage.subjectDTOs);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -113,16 +120,28 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub
             adapter.setData(appStorage.subjectDTOs);
+            for (int i = 0; i < appStorage.subjectDTOs.size(); ++i) {
+                SubjectDTO item = appStorage.subjectDTOs.get(i);
+                Log.e(TAG, "out " + item.name + item.category + item.startcourse + item.endcourse + item.numberclass);
+            }
             super.onPostExecute(result);
         }
     }
 
     @Override
     public void showSubjectDetail(SubjectDTO subjectDTO) {
+        SubjectDetailDialog dialog = new SubjectDetailDialog(this);
+        dialog.setListener(this);
+        dialog.setData(subjectDTO);
+        dialog.show();
     }
 
     @Override
     public void showRate(SubjectDTO subjectDTO) {
+        RateDialog dialog = new RateDialog(this);
+        dialog.setListener(this);
+        dialog.setData(subjectDTO);
+        dialog.show();
     }
 
     @Override
@@ -133,6 +152,13 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
 
     @Override
     public void register(SubjectDTO subjectDTO) {
+        Snackbar snackbar = Snackbar.make(view, "Register subject " + subjectDTO.name + " success", Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        for (SubjectDTO item : appStorage.subjectDTOs) {
+            if (item.id.equals(subjectDTO.id)) {
+                item.isRegister = true;
+            }
+        }
     }
 }
 

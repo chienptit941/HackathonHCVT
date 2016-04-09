@@ -9,18 +9,18 @@ public class SubjectDTO {
     public String numberclass;
     public String startcourse;
     public String endcourse;
-    public String tblcategory_id;
+    public String category;
     public String description;
 
     public boolean isRegister;
 
-    public SubjectDTO(String id, String name, String numberclass, String startcourse, String endcourse, String tblcategory_id, String description) {
+    public SubjectDTO(String id, String name, String numberclass, String startcourse, String endcourse, String category, String description) {
         this.id = id;
         this.name = name;
         this.numberclass = numberclass;
         this.startcourse = startcourse;
         this.endcourse = endcourse;
-        this.tblcategory_id = tblcategory_id;
+        this.category = category;
         this.description = description;
     }
     public SubjectDTO (String name) {
@@ -29,7 +29,7 @@ public class SubjectDTO {
         this.numberclass = "aaa";
         this.startcourse = "aaa";
         this.endcourse = "aaa";
-        this.tblcategory_id = "aaa";
+        this.category = "aaa";
         this.description = "aaa";
     }
 }
