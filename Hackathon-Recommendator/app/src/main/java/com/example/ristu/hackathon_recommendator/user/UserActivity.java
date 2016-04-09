@@ -103,7 +103,7 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
                     String[] ssses = sss.toString().replace('"',' ').split(",");
                     Log.e(TAG, "Adding " + ssses[0] + ssses[1] + ssses[2] + ssses[3]);
                     for (int i = 0; i < ssses.length; ++i) {
-                        SubjectDTO subj = new SubjectDTO(ssses[i].trim());
+                        SubjectDTO subj = new SubjectDTO(i+1, ssses[i].trim());
                         Log.e(TAG, "creating " + subj.name);
                         subjects.add(subj);
                     }

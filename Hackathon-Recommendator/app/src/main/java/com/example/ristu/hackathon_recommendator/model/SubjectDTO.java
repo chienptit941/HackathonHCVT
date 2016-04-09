@@ -23,8 +23,8 @@ public class SubjectDTO {
         this.category = category;
         this.description = description;
     }
-    public SubjectDTO (String name) {
-        this.id = "1";
+    public SubjectDTO (int id, String name) {
+        this.id = id + "";
         this.name = name;
         this.numberclass = "aaa";
         this.startcourse = "aaa";
