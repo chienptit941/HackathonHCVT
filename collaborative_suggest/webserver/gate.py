@@ -111,7 +111,9 @@ def get_studied_courses():
 def get_suggested_courses():
     try:
         u_id = request.args.get('user_id')
-        output = {'courses': ['A', 'B', 'C', 'D']}
+        course_ids = [1, 2, 3, 4]
+        courses = ['A', 'B', 'C', 'D']
+        output = {'courses': courses, 'course_ids': course_ids}
     except:
         output = 'Server failed'
     return json.dumps(output)
