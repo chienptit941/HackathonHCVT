@@ -5,13 +5,22 @@ import data_helpers
 
 
 def predict_one(u_id, rate_data, item_id):
-    train_data = rate_data[:u_id] + rate_data[u_id + 1:]
+    if u_id < (len(rate_data) - 1):
+        train_data = rate_data[:u_id] + rate_data[u_id + 1:]
+    else:
+        train_data = rate_data[:u_id]
     train_data = np.array(train_data)
     input_data = []
     label_data = []
     for data_id, train_data_ in enumerate(train_data):
-        input_data.append(train_data_[:-1])
-        label_data.append([train_data_[-1]])
+        if item_id < (len(train_data_) - 1):
+            other_rate = train_data_[:item_id] + train_data_[item_id + 1:]
+        else:
+            other_rate = train_data_[:item_id]
+        input_data.append(other_rate)
+        label_data.append([train_data_[item_id]])
+        # input_data.append(train_data_[:-1])
+        # label_data.append([train_data_[-1]])
     input_data = np.array(input_data)
     label_data = np.array(label_data)
     batch_size = len(input_data)

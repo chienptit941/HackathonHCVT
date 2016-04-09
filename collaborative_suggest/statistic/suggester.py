@@ -50,7 +50,7 @@ def predict_one(u_id, rate_data, item_id, k=5):
 
 
 def get_similar_users(user_id, k=5, threshold=0.8):
-    rated_data, user_list = data_helpers.get_user_rated_data(user_id)
+    rated_data, _,  user_list = data_helpers.get_user_rated_data(user_id)
     neighbor_indices, _, _ = knn.similarity_knn(sample_id=0, x=rated_data, k=k,
                                                 threshold=threshold, dist_func=similarity_estimator.pearsonr)
     neighbor_user_list = []
@@ -74,13 +74,13 @@ def get_related_courses_and_rates(user_id):
     related_courses = get_related_courses(user_id)
     predict_course_rates = []
     for related_course_ in related_courses:
-        rate_data = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
+        rate_data, _, _ = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
         item_id = len(rate_data[0]) - 1
         u_id = 0
         predicted_rate = predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
-        recurrent_predict_rate = rnn_app.predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
-        print('=' * 50)
-        print(recurrent_predict_rate)
+        # recurrent_predict_rate = rnn_app.predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
+        # print('=' * 50)
+        # print(recurrent_predict_rate)
         predict_course_rates.append(predicted_rate)
     return related_courses, predict_course_rates
 
