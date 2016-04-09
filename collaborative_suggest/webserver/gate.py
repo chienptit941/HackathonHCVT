@@ -88,7 +88,7 @@ def predict():
 @crossdomain(origin='*')
 def get_hot_courses():
     try:
-        u_id = request.form['user_id']
+        u_id = request.args.get('user_id')
         output = {'courses': ['A', 'B', 'C', 'D']}
     except:
         output = 'Server failed'
@@ -99,7 +99,7 @@ def get_hot_courses():
 @crossdomain(origin='*')
 def get_studied_courses():
     try:
-        u_id = request.form['user_id']
+        u_id = request.args.get('user_id')
         output = {'courses': ['A', 'B', 'C'], 'statuses': ['finished', 'finished', 'finished']}
     except:
         output = 'Server failed'
@@ -110,7 +110,7 @@ def get_studied_courses():
 @crossdomain(origin='*')
 def get_suggested_courses():
     try:
-        u_id = request.form['user_id']
+        u_id = request.args.get('user_id')
         output = {'courses': ['A', 'B', 'C', 'D']}
     except:
         output = 'Server failed'

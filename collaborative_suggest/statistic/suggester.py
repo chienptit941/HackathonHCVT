@@ -65,7 +65,22 @@ def get_related_courses(user_id):
     for nb_user_id_ in neighbor_user_list:
         nb_user_studied_courses = data_helpers.get_studied_courses(nb_user_id_)
         related_courses += nb_user_studied_courses
+    related_courses = list(set(related_courses) - set(current_user_studied_courses))
+    return related_courses
 
-test_neighbors = get_similar_users(user_id='a')
-for ea_ in test_neighbors:
-    print ea_
+
+def get_related_courses_and_rates(user_id):
+    related_courses = get_related_courses(user_id)
+    predict_course_rates = []
+    for related_course_ in related_courses:
+        rate_data = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
+        item_id = len(rate_data[0]) - 1
+        u_id = 0
+        predicted_rate = predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
+        predict_course_rates.append(predicted_rate)
+    return related_courses, predict_course_rates
+
+rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id='a')
+for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
+    print rl_cs_
+    print prd_c_r[rl_cs_id]
