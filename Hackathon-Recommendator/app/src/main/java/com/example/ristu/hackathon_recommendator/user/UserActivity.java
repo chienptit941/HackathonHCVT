@@ -1,7 +1,6 @@
 package com.example.ristu.hackathon_recommendator.user;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +9,7 @@ import android.view.View;
 
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
+import com.example.ristu.hackathon_recommendator.util.AppStorage;
 
 public class UserActivity extends AppCompatActivity implements IUserActivity {
     private RecyclerView list;
@@ -35,41 +35,23 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
         adapter = new UserAdapter(this);
         list.setAdapter(adapter);
 
-        appStorage.subjectDTOs = DumpData.dumpSubject();
+//        appStorage.subjectDTOs = SERVER RESPONSE
         adapter.setData(appStorage.subjectDTOs);
     }
 
     @Override
     public void showSubjectDetail(SubjectDTO subjectDTO) {
-        SubjectDetailDialog dialog = new SubjectDetailDialog(this);
-        dialog.setListener(this);
-        dialog.setData(subjectDTO);
-        dialog.show();
     }
 
     @Override
     public void showRate(SubjectDTO subjectDTO) {
-        RateDialog dialog = new RateDialog(this);
-        dialog.setListener(this);
-        dialog.setData(subjectDTO);
-        dialog.show();
     }
 
     @Override
     public void rate(SubjectDTO subjectDTO) {
-        Snackbar snackbar = Snackbar.make(view, "rate " + subjectDTO.name + " success", Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 
     @Override
     public void register(SubjectDTO subjectDTO) {
-        Snackbar snackbar = Snackbar.make(view, "Register subject " + subjectDTO.name + " success", Snackbar.LENGTH_SHORT);
-        snackbar.show();
-        for (SubjectDTO item : appStorage.subjectDTOs) {
-            if (item.id.equals(subjectDTO.id)) {
-                item.isRegister = true;
-            }
-        }
-        adapter.setData(appStorage.subjectDTOs);
     }
 }

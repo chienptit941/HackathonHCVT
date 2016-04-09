@@ -4,13 +4,15 @@ package com.example.ristu.hackathon_recommendator.model;
  * Created by ristu on 4/9/2016.
  */
 public class SubjectDTO {
-    private String id;
-    private String name;
-    private String numberclass;
-    private String startcourse;
-    private String endcourse;
-    private String tblcategory_id;
-    private String description;
+    public String id;
+    public String name;
+    public String numberclass;
+    public String startcourse;
+    public String endcourse;
+    public String tblcategory_id;
+    public String description;
+
+    public boolean isRegister;
 
     public SubjectDTO(String id, String name, String numberclass, String startcourse, String endcourse, String tblcategory_id, String description) {
         this.id = id;

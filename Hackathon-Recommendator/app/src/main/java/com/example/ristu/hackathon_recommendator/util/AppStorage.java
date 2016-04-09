@@ -21,4 +21,5 @@ public class AppStorage {
             mInstance = new AppStorage();
         }
         return mInstance;
+    }
 }
