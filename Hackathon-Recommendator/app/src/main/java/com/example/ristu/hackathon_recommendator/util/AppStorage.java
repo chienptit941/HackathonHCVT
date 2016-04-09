@@ -9,5 +9,16 @@ import java.util.List;
  */
 public class AppStorage {
 
-    List<SubjectDTO> subjectDTOs;
+    private static AppStorage mInstance = null;
+
+    public List<SubjectDTO> subjectDTOs;
+
+    private AppStorage() {
+    }
+
+    public static AppStorage getInstance() {
+        if (mInstance == null) {
+            mInstance = new AppStorage();
+        }
+        return mInstance;
 }
