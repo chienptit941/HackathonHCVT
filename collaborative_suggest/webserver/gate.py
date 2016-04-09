@@ -125,11 +125,12 @@ def get_suggested_courses():
 def get_user_profile():
     try:
         u_id = request.args.get('user_id')
-        name = 'Adam'
-        interests = ['IT', 'English']
-        rates = {"subject name a": "5.0", "subject name b": "4.0"}
-        output = {'user_id': u_id, 'name': name, 'interests': interests,
-                  'rates': rates}
+        # name = 'Adam'
+        # interests = ['IT', 'English']
+        # rates = {"subject name a": "5.0", "subject name b": "4.0"}
+        # output = {'user_id': u_id, 'name': name, 'interests': interests,
+        #           'rates': rates}
+        output = db_connection.get_user_profile(user_id=u_id)
     except:
         output = 'Server failed'
     return json.dumps(output)
