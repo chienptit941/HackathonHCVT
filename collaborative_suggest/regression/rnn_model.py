@@ -17,6 +17,7 @@ def gen_RNN(_X, _istate, _weights, _biases, n_input, n_hidden, n_steps):
     _X = tf.split(0, n_steps, _X) # n_steps * (batch_size, n_hidden)
 
     # Get lstm cell output
+
     outputs, states = rnn.rnn(lstm_cell, _X, initial_state=_istate)  # add reuse=True
 
     # Linear activation

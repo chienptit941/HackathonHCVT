@@ -29,11 +29,11 @@ def predict_one(u_id, rate_data, item_id):
     new_train.run(input_data, label_data)
 
     u_data = rate_data[u_id]
-    predict_data = u_data[:item_id] + u_data[item_id + 1:]
+    predict_data = [u_data[:item_id] + u_data[item_id + 1:]]
     batch_size = len(predict_data)
     new_predict = Predict(n_hidden=n_hidden, batch_size=batch_size, out_dir=out_dir)
     predicted_rates = new_predict.predict(predict_data)
-    return predicted_rates[0]
+    return predicted_rates[0][0]
 
 
 
