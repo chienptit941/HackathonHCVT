@@ -1,10 +1,12 @@
-package com.example.ristu.hackathon_recommendator;
+package com.example.ristu.hackathon_recommendator.user;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.ristu.hackathon_recommendator.R;
 
 public class UserActivity extends AppCompatActivity {
 
