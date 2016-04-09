@@ -1,6 +1,7 @@
 import similarity_estimator
 import knn
 import numpy as np
+from collaborative_suggest.utils import data_helpers
 
 
 def predict_r_u_i(u, neighbors, neighbor_distances, neighbor_rate_i):
@@ -47,3 +48,24 @@ def predict_one(u_id, rate_data, item_id, k=5):
     return r_u_i
 
 
+def get_similar_users(user_id, k=5, threshold=0.8):
+    rated_data, user_list = data_helpers.get_user_rated_data(user_id)
+    neighbor_indices, _, _ = knn.similarity_knn(sample_id=0, x=rated_data, k=k,
+                                                threshold=threshold, dist_func=similarity_estimator.pearsonr)
+    neighbor_user_list = []
+    for nb_id_ in neighbor_indices:
+        neighbor_user_list.append(user_list[nb_id_])
+    return neighbor_user_list
+
+
+def get_related_courses(user_id):
+    related_courses = []
+    neighbor_user_list = get_similar_users(user_id)
+    current_user_studied_courses = data_helpers.get_studied_courses(user_id)
+    for nb_user_id_ in neighbor_user_list:
+        nb_user_studied_courses = data_helpers.get_studied_courses(nb_user_id_)
+        related_courses += nb_user_studied_courses
+
+test_neighbors = get_similar_users(user_id='a')
+for ea_ in test_neighbors:
+    print ea_

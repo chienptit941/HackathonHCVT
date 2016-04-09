@@ -84,7 +84,7 @@ def predict():
     return json.dumps(output)
 
 
-@app.route('/get_hot_course', methods=['GET'])
+@app.route('/get_hot_courses', methods=['GET'])
 @crossdomain(origin='*')
 def get_hot_courses():
     try:
@@ -95,7 +95,7 @@ def get_hot_courses():
     return json.dumps(output)
 
 
-@app.route('/get_studied_course', methods=['GET'])
+@app.route('/get_studied_courses', methods=['GET'])
 @crossdomain(origin='*')
 def get_studied_courses():
     try:
@@ -106,7 +106,7 @@ def get_studied_courses():
     return json.dumps(output)
 
 
-@app.route('/get_suggested_course', methods=['GET'])
+@app.route('/get_suggested_courses', methods=['GET'])
 @crossdomain(origin='*')
 def get_suggested_courses():
     try:
