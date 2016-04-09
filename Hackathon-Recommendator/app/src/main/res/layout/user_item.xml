@@ -9,15 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:text="Rate" />
     <TextView
         android:id="@+id/user_subject_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/user_subject_rate"/>
     <TextView
         android:id="@+id/user_subject_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/user_subject_status"/>
 </RelativeLayout>

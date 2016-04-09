@@ -6,11 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
 import com.example.ristu.hackathon_recommendator.util.AppStorage;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
+import com.example.ristu.hackathon_recommendator.util.GettingData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,7 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
     private RecyclerView.LayoutManager listLayoutManager;
     private AppStorage appStorage;
     private View view;
+    private TextView test_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,25 +44,28 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
         adapter = new UserAdapter(this);
         list.setAdapter(adapter);
 
+        test_view = (TextView) findViewById(R.id.test_view);
+
+
+
 //        appStorage.subjectDTOs = SERVER RESPONSE
         String link = "http://192.168.1.6:8080/get_hot_courses";
         String query = "?user_id=a";
         String url = link + query;
+        new GettingData().execute(url);
+        JSONObject json = null;
         try {
-            JSONObject jsonObj = DataTransfer.readJsonFromUrl(url);
-            if(jsonObj.has("courses"))
-//                txtId.setText(jsonObj.getString("id"));
-//                appStorage.RandomData( jsonObj.get("courses").toString().replace('[', ' ').replace(']',' ').split(",") );
-                appStorage.subjectDTOs.add(new SubjectDTO(jsonObj.getString("courses")));
+            json = DataTransfer.readJsonFromUrl(url);
+            if (json.has("courses"))
+                test_view.setText(json.get("courses").toString());
             else
-                appStorage.subjectDTOs.add(new SubjectDTO("empty"));
+                test_view.setText("fail");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        adapter.setData(appStorage.subjectDTOs);
+        adapter.setData(appStorage.subjectDTOs);
     }
 
     @Override
@@ -78,3 +84,5 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
     public void register(SubjectDTO subjectDTO) {
     }
 }
+
+
