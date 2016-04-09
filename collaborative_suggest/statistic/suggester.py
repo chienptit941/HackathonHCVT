@@ -91,10 +91,15 @@ def get_related_courses_and_rates(user_id):
         predict_course_rates.append(predicted_rate)
     return related_courses, predict_course_rates
 
-rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1)
-for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
-    print rl_cs_
-    print prd_c_r[rl_cs_id]
+
+def main():
+    rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1)
+    for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
+        print rl_cs_
+        print prd_c_r[rl_cs_id]
+
+if __name__ == 'main':
+    main()
 
 # rate_data_ = [[5.0, 4.0, 5.0, 5.0], [5.0, 5.0, 4.0, 4.0], [5.0, 5.0, 5.0, 5.0], [2.0, 1.0, 2.0, 2.0],
 #               [1.0, 2.0, 1.0, 1.0], [1.0, 1.0, 2.0, 1.0]]
