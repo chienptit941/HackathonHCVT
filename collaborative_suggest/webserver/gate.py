@@ -116,5 +116,39 @@ def get_suggested_courses():
         output = 'Server failed'
     return json.dumps(output)
 
+
+@app.route('/user_profile', methods=['GET'])
+@crossdomain(origin='*')
+def get_user_profile():
+    try:
+        u_id = request.args.get('user_id')
+        name = 'Adam'
+        interests = ['IT', 'English']
+        rates = {"subject name a": "5.0", "subject name b": "4.0"}
+        output = {'user_id': u_id, 'name': name, 'interests': interests,
+                  'rates': rates}
+    except:
+        output = 'Server failed'
+    return json.dumps(output)
+
+
+@app.route('/get_course_detail', methods=['GET'])
+@crossdomain(origin='*')
+def get_course_detail():
+    try:
+        course_id = request.args.get('course_id')
+        name = 'Speaking'
+        numberclass = 10
+        startcourse = '2016-10-20'
+        endcourse = '2016-11-20'
+        category = 'English'
+        description = 'Interesting course'
+        output = {'course_id': course_id, 'name': name, 'numberclass': numberclass,
+                  'startcourse': startcourse, 'endcourse': endcourse, 'category': category,
+                  'description': description}
+    except:
+        output = 'Server failed'
+    return json.dumps(output)
+
 if __name__ == "__main__":
     start_server()
