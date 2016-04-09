@@ -84,5 +84,37 @@ def predict():
     return json.dumps(output)
 
 
+@app.route('/get_hot_course', methods=['GET'])
+@crossdomain(origin='*')
+def get_hot_courses():
+    try:
+        u_id = request.form['user_id']
+        output = {'courses': ['A', 'B', 'C', 'D']}
+    except:
+        output = 'Server failed'
+    return json.dumps(output)
+
+
+@app.route('/get_studied_course', methods=['GET'])
+@crossdomain(origin='*')
+def get_studied_courses():
+    try:
+        u_id = request.form['user_id']
+        output = {'courses': ['A', 'B', 'C'], 'statuses': ['finished', 'finished', 'finished']}
+    except:
+        output = 'Server failed'
+    return json.dumps(output)
+
+
+@app.route('/get_suggested_course', methods=['GET'])
+@crossdomain(origin='*')
+def get_suggested_courses():
+    try:
+        u_id = request.form['user_id']
+        output = {'courses': ['A', 'B', 'C', 'D']}
+    except:
+        output = 'Server failed'
+    return json.dumps(output)
+
 if __name__ == "__main__":
     start_server()
