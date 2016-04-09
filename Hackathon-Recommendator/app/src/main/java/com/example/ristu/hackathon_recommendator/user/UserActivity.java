@@ -32,6 +32,9 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
     private AppStorage appStorage;
     private View view;
 
+    private String url;
+    private JSONObject json;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +55,10 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
 
 
 //        appStorage.subjectDTOs = SERVER RESPONSE
-        String link = "http://192.168.1.6:8080/get_hot_courses";
+        String link = "http://192.168.1.6:8080/get_suggested_courses";
         String query = "?user_id=a";
         String url = link + query;
-        new GettingData().execute(url);
+        new GettingData().execute(url, "start");
         adapter.setData(appStorage.subjectDTOs);
     }
 
