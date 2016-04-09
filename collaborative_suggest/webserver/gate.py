@@ -90,7 +90,7 @@ def predict():
 def get_hot_courses():
     try:
         u_id = request.args.get('user_id')
-        output = {'courses': ['A', 'B', 'C', 'D']}
+        output = {'courses': ['A', 'B', 'C', 'D'], 'course_ids': [1, 2, 3, 4]}
     except:
         output = 'Server failed'
     return json.dumps(output)
@@ -112,8 +112,9 @@ def get_studied_courses():
 def get_suggested_courses():
     try:
         u_id = request.args.get('user_id')
-        course_ids = [1, 2, 3, 4]
-        courses = ['A', 'B', 'C', 'D']
+        # course_ids = [1, 2, 3, 4]
+        # courses = ['A', 'B', 'C', 'D']
+        course_ids, courses = suggester.suggest_list(user_id=u_id)
         output = {'courses': courses, 'course_ids': course_ids}
     except:
         output = 'Server failed'

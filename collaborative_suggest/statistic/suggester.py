@@ -3,6 +3,7 @@ import knn
 import numpy as np
 from collaborative_suggest.utils import data_helpers
 from collaborative_suggest.regression import rnn_app
+from collaborative_suggest.utils import db_connection
 
 
 def predict_r_u_i(u, neighbors, neighbor_distances, neighbor_rate_i):
@@ -91,6 +92,16 @@ def get_related_courses_and_rates(user_id, is_train=False):
         # print(recurrent_predict_rate)
         predict_course_rates.append(predicted_rate)
     return related_courses, predict_course_rates
+
+
+def suggest_list(user_id, is_train=False, rate_threshold=3.5):
+    related_courses, course_rates = get_related_courses_and_rates(user_id, is_train=is_train)
+    suggested_id_list = []
+    for rl_cs_id, rl_cs_ in enumerate(related_courses):
+        if course_rates[rl_cs_id] > rate_threshold:
+            suggested_id_list.append(rl_cs_)
+    suggested_courses = db_connection.get_course_names(course_ids=suggested_id_list)
+    return suggested_id_list, suggested_courses
 
 
 def main():

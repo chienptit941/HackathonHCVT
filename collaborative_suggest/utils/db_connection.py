@@ -38,6 +38,7 @@ def get_course_detail(course_id):
 
     return parsed_results
 
+
 def get_user_profile(user_id):
     sql = 'SELECT u.fname, u.lname, u.favourite, s.name, r.score \
     FROM hcvt.tblrate r JOIN hcvt.tbluser u \
@@ -67,6 +68,31 @@ def get_user_profile(user_id):
     parsed_results = {'name': name, 'interests': interests, 'rates': rates}
 
     return parsed_results
+
+
+def get_course_names(course_ids):
+    course_names = []
+    for course_id in course_ids:
+        course_name = get_course_name(course_id)
+        course_names.append(course_name)
+    return course_names
+
+
+def get_course_name(course_id):
+    course_name = ''
+    sql = 'SELECT name FROM hcvt.tblsubjects WHERE id=' + str(course_id) + ';'
+    # print sql
+    cursor = get_connection().cursor()
+    results = []
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    except Exception as ex:
+        print 'Exception: ', ex
+        pass
+    if len(results) > 0:
+        course_name = str_encode(results[0][0])
+    return course_name
 
 
 def str_encode(string):
