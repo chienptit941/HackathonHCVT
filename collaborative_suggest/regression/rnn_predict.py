@@ -34,8 +34,9 @@ class Predict(object):
                 print "Testing Accuracy:", sess.run(new_rnn.accuracy, feed_dict={new_rnn.x: test_data, new_rnn.y: test_label,
                                                                                  new_rnn.istate: np.zeros((test_len, 2*n_hidden))})
 
-    def predict(self):
-        input_data = data_helpers.load_predict_data()
+    def predict(self, input_data=None):
+        if input_data is None:
+            input_data = data_helpers.load_predict_data()
         label_data = [[0.0] for _ in input_data]
         n_steps = 3
         n_input = 1
@@ -60,7 +61,7 @@ class Predict(object):
                              new_rnn.istate: np.zeros((test_len, 2*n_hidden))}
                 predict_labels = sess.run(new_rnn.pred, feed_dict=feed_dict)
                 print "Predict label:", predict_labels
-
+        return predict_labels
 
 # new_predict = Predict(n_hidden=12, batch_size=2, out_dir='models')
 # new_predict.predict()

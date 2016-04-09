@@ -16,9 +16,10 @@ class Train(object):
         self.checkpoint_step = checkpoint_step
         self.display_step = display_step
 
-    def run(self):
-        input_data, label_data = data_helpers.load_data()
-        n_steps = 3
+    def run(self, input_data=None, label_data=None):
+        if (input_data is None) | (label_data is None):
+            input_data, label_data = data_helpers.load_data()
+        n_steps = len(input_data[0])
         n_input = 1
         n_classes = 1
         n_hidden = self.n_hidden
