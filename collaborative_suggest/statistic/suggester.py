@@ -49,8 +49,11 @@ def predict_one(u_id, rate_data, item_id, k=5):
     return r_u_i
 
 
-def get_similar_users(user_id, k=5, threshold=0.8):
-    rated_data, _,  user_list = data_helpers.get_user_rated_data(user_id)
+def get_similar_users(user_id, k=5, threshold=0.5):
+    rated_data, u_courses,  user_list = data_helpers.get_user_rated_data(user_id)
+    print 'rated_data', rated_data
+    print 'u_courses', u_courses
+    print 'user_list', user_list
     neighbor_indices, _, _ = knn.similarity_knn(sample_id=0, x=rated_data, k=k,
                                                 threshold=threshold, dist_func=similarity_estimator.pearsonr)
     neighbor_user_list = []
@@ -62,6 +65,7 @@ def get_similar_users(user_id, k=5, threshold=0.8):
 def get_related_courses(user_id):
     related_courses = []
     neighbor_user_list = get_similar_users(user_id)
+    print 'neighbor user list', neighbor_user_list
     current_user_studied_courses = data_helpers.get_studied_courses(user_id)
     for nb_user_id_ in neighbor_user_list:
         nb_user_studied_courses = data_helpers.get_studied_courses(nb_user_id_)
@@ -72,9 +76,12 @@ def get_related_courses(user_id):
 
 def get_related_courses_and_rates(user_id):
     related_courses = get_related_courses(user_id)
+    print 'related courses' , related_courses
     predict_course_rates = []
     for related_course_ in related_courses:
-        rate_data, _, _ = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
+        rate_data, u_courses, res_users = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
+        # item_id = u_courses.index(related_course_)
+        # u_id = res_users.index(user_id)
         item_id = len(rate_data[0]) - 1
         u_id = 0
         predicted_rate = predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
@@ -84,7 +91,7 @@ def get_related_courses_and_rates(user_id):
         predict_course_rates.append(predicted_rate)
     return related_courses, predict_course_rates
 
-rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id='a')
+rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id=1)
 for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
     print rl_cs_
     print prd_c_r[rl_cs_id]
