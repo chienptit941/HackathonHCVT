@@ -152,5 +152,17 @@ def get_course_detail():
         output = 'Server failed'
     return json.dumps(output)
 
+
+@app.route('/course_register', methods=['GET'])
+@crossdomain(origin='*')
+def course_register():
+    try:
+        course_id = request.args.get('course_id')
+        user_id = request.args.get('user_id')
+        output = 'Successful'
+    except:
+        output = 'Failed'
+    return json.dumps(output)
+
 if __name__ == "__main__":
     start_server()
