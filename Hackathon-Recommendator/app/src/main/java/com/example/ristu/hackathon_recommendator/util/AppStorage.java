@@ -22,4 +22,10 @@ public class AppStorage {
         }
         return mInstance;
     }
+
+    public void RandomData(String[] names) {
+        for (int i = 0; i < names.length; ++i) {
+            AppStorage.getInstance().subjectDTOs.add(new SubjectDTO(names[i]));
+        }
+    }
 }

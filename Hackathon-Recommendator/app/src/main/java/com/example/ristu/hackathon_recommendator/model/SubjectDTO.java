@@ -24,12 +24,12 @@ public class SubjectDTO {
         this.description = description;
     }
     public SubjectDTO (String name) {
-        this.id = 1;
+        this.id = "1";
         this.name = name;
-        this.numberclass = numberclass;
-        this.startcourse = startcourse;
-        this.endcourse = endcourse;
-        this.tblcategory_id = tblcategory_id;
-        this.description = description;
+        this.numberclass = "aaa";
+        this.startcourse = "aaa";
+        this.endcourse = "aaa";
+        this.tblcategory_id = "aaa";
+        this.description = "aaa";
     }
 }

@@ -49,14 +49,17 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
             JSONObject jsonObj = DataTransfer.readJsonFromUrl(url);
             if(jsonObj.has("courses"))
 //                txtId.setText(jsonObj.getString("id"));
-                appStorage.subjectDTOs = new
+//                appStorage.RandomData( jsonObj.get("courses").toString().replace('[', ' ').replace(']',' ').split(",") );
+                appStorage.subjectDTOs.add(new SubjectDTO(jsonObj.getString("courses")));
+            else
+                appStorage.subjectDTOs.add(new SubjectDTO("empty"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        adapter.setData(appStorage.subjectDTOs);
+//        adapter.setData(appStorage.subjectDTOs);
     }
 
     @Override
