@@ -61,7 +61,6 @@ def get_sim_neighbors(training_set, test_instance, k, threshold=0.0, dist_func=N
     for x in range(len(training_set)):
         # dist = similarity_estimator.pearsonr(test_instance, training_set[x])
         dist = dist_func(test_instance, training_set[x])
-        print dist
         if dist >= threshold:
             distances.append((x, dist, training_set[x]))
     distances.sort(key=operator.itemgetter(1), reverse=True)
