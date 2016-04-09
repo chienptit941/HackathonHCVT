@@ -76,7 +76,7 @@ def get_related_courses(user_id):
 
 def get_related_courses_and_rates(user_id, is_train=False):
     related_courses = get_related_courses(user_id)
-    print 'related courses' , related_courses
+    print 'related courses', related_courses
     predict_course_rates = []
     for related_course_ in related_courses:
         rate_data, u_courses, res_users = data_helpers.get_user_related_rate_data(user_id=user_id, course_id=related_course_)
