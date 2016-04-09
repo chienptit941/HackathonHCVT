@@ -2,6 +2,7 @@ import similarity_estimator
 import knn
 import numpy as np
 from collaborative_suggest.utils import data_helpers
+from collaborative_suggest.regression import rnn_app
 
 
 def predict_r_u_i(u, neighbors, neighbor_distances, neighbor_rate_i):
@@ -77,10 +78,20 @@ def get_related_courses_and_rates(user_id):
         item_id = len(rate_data[0]) - 1
         u_id = 0
         predicted_rate = predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
+        # recurrent_predict_rate = rnn_app.predict_one(u_id=u_id, rate_data=rate_data, item_id=item_id)
+        # print('=' * 50)
+        # print(recurrent_predict_rate)
         predict_course_rates.append(predicted_rate)
     return related_courses, predict_course_rates
 
-rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id='a')
-for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
-    print rl_cs_
-    print prd_c_r[rl_cs_id]
+# rl_cs_s, prd_c_r = get_related_courses_and_rates(user_id='a')
+# for rl_cs_id, rl_cs_ in enumerate(rl_cs_s):
+#     print rl_cs_
+#     print prd_c_r[rl_cs_id]
+
+rate_data_ = [[5.0, 4.0, 5.0, 5.0], [5.0, 5.0, 4.0, 4.0], [5.0, 5.0, 5.0, 5.0], [2.0, 1.0, 2.0, 2.0],
+              [1.0, 2.0, 1.0, 1.0], [1.0, 1.0, 2.0, 1.0]]
+# rate_data_ = [[1.0, 2.0, 2.0, 3.0], [5.0, 4.0, 3.0, 4.0], [4.0, 4.0, 3.0, 5.0], [2.0, 3.0, 5.0, 4.0]]
+u_id_ = 0
+item_id_ = len(rate_data_[0]) - 1
+rnn_app.predict_one(u_id_, rate_data_, item_id_)
