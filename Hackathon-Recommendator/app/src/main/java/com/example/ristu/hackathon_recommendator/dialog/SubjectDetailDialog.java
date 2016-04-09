@@ -2,6 +2,7 @@ package com.example.ristu.hackathon_recommendator.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +12,13 @@ import android.widget.TextView;
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
 import com.example.ristu.hackathon_recommendator.user.IUserActivity;
+import com.example.ristu.hackathon_recommendator.util.Constants;
+import com.example.ristu.hackathon_recommendator.util.DataTransfer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * Created by ristu on 4/9/2016.
@@ -47,18 +55,80 @@ public class SubjectDetailDialog extends Dialog {
     }
 
     public void setData(SubjectDTO subjectDTO) {
+
+        String link = "http://" + Constants.IP + ":8080/get_course_detail";
+        String query = "?course_id="+subjectDTO.id;
+        String url = link + query;
+        new GettingData().execute(url, "middle");
+
         this.subjectDTO = subjectDTO;
+//
+//        holder.name.setText(subjectDTO.name);
+//        holder.description.setText(subjectDTO.description);
+//        holder.startcourse.setText(subjectDTO.startcourse);
+//        holder.endcourse.setText(subjectDTO.endcourse);
+//        holder.numberclass.setText(subjectDTO.numberclass);
+//
+//        if (subjectDTO.isRegister) {
+//            holder.register.setVisibility(View.GONE);
+//        } else {
+//            holder.register.setVisibility(View.VISIBLE);
+//        }
+    }
 
-        holder.name.setText(subjectDTO.name);
-        holder.description.setText(subjectDTO.description);
-        holder.startcourse.setText(subjectDTO.startcourse);
-        holder.endcourse.setText(subjectDTO.endcourse);
-        holder.numberclass.setText(subjectDTO.numberclass);
+    public class GettingData extends AsyncTask<String, JSONObject, Void>
+    {
+        private String url;
+        private String period;
 
-        if (subjectDTO.isRegister) {
-            holder.register.setVisibility(View.GONE);
-        } else {
-            holder.register.setVisibility(View.VISIBLE);
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(String... params) {
+            //Lấy URL truyền vào
+            url=params[0];
+            period=params[1];
+            JSONObject jsonObj;
+            try {
+                //đọc và chuyển về JSONObject
+                jsonObj = DataTransfer.readJsonFromUrl(url);
+                publishProgress(jsonObj);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(JSONObject... values) {
+            super.onProgressUpdate(values);
+            JSONObject jsonObj=values[0];
+            try {
+                if(jsonObj.has("name"))
+                    holder.name.setText(jsonObj.getString("name"));
+                if(jsonObj.has("description"))
+                    holder.description.setText(jsonObj.getString("description"));
+                if(jsonObj.has("startcourse"))
+                    holder.startcourse.setText(jsonObj.getString("startcourse"));
+                if(jsonObj.has("endcourse"))
+                    holder.endcourse.setText(jsonObj.getString("endcourse"));
+                if(jsonObj.has("numberclass"))
+                    holder.numberclass.setText(jsonObj.getString("numberclass"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
         }
     }
 

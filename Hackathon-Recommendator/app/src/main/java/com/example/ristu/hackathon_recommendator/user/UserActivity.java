@@ -15,6 +15,7 @@ import com.example.ristu.hackathon_recommendator.dialog.RateDialog;
 import com.example.ristu.hackathon_recommendator.dialog.SubjectDetailDialog;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
 import com.example.ristu.hackathon_recommendator.util.AppStorage;
+import com.example.ristu.hackathon_recommendator.util.Constants;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
 
 import org.json.JSONException;
@@ -31,9 +32,6 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
     private RecyclerView.LayoutManager listLayoutManager;
     private AppStorage appStorage;
     private View view;
-
-    private String url;
-    private JSONObject json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,7 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
 
 
 //        appStorage.subjectDTOs = SERVER RESPONSE
-        String link = "http://192.168.1.6:8080/get_suggested_courses";
+        String link = "http://" + Constants.IP + ":8080/get_suggested_courses";
         String query = "?user_id=a";
         String url = link + query;
         new GettingData().execute(url, "start");
@@ -64,6 +62,8 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
 
     public class GettingData extends AsyncTask<String, JSONObject, Void>
     {
+        private String url;
+        private String period;
 
         @Override
         protected void onPreExecute() {
@@ -73,7 +73,8 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
         @Override
         protected Void doInBackground(String... params) {
             //Lấy URL truyền vào
-            String url=params[0];
+            url=params[0];
+            period=params[1];
             JSONObject jsonObj;
             try {
                 //đọc và chuyển về JSONObject
@@ -94,23 +95,21 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
             //ta cập nhật giao diện ở đây:
             JSONObject jsonObj=values[0];
             try {
-                //kiểm tra xem có tồn tại thuộc tính courses hay không
-                Log.e(TAG, "begin");
                 List<SubjectDTO> subjects = new ArrayList();
-                if(jsonObj.has("courses")) {
-                    Log.e(TAG, "middle");
+                if(jsonObj.has("course_ids") && jsonObj.has("courses")) {
+                    StringBuilder ids = new StringBuilder(jsonObj.getString("courses").toString());
                     StringBuilder sss = new StringBuilder(jsonObj.getString("courses").toString());
                     sss.replace(0, 1, "");
+                    ids.replace(0, 1, "");
                     sss.replace(sss.length() - 1, sss.length(), "");
-                    Log.e(TAG, sss.toString());
+                    ids.replace(ids.length() - 1, ids.length(), "");
                     String[] ssses = sss.toString().replace('"',' ').split(",");
-                    Log.e(TAG, "Adding " + ssses[0] + ssses[1] + ssses[2] + ssses[3]);
+                    String[] idses = ids.toString().replace('"',' ').split(",");
                     for (int i = 0; i < ssses.length; ++i) {
-                        SubjectDTO subj = new SubjectDTO(i+1, ssses[i].trim());
-                        Log.e(TAG, "creating " + subj.name);
+                        SubjectDTO subj = new SubjectDTO(idses[i].trim(), ssses[i].trim());
+                        Log.e(TAG, "creating " + subj.id + " " + subj.name);
                         subjects.add(subj);
                     }
-                    Log.e(TAG, "in " + subjects.get(0) + " " + subjects.get(1) + " " + subjects.get(2) + " " + subjects.get(3));
                     appStorage.subjectDTOs = subjects;
                 }
                 adapter.setData(appStorage.subjectDTOs);
@@ -119,6 +118,7 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
                 e.printStackTrace();
             }
         }
+
         @Override
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub

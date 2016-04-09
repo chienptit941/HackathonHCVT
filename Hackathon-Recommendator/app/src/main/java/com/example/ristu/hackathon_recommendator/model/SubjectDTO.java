@@ -23,8 +23,8 @@ public class SubjectDTO {
         this.category = "Nhóm ngành " + category;
         this.description = description;
     }
-    public SubjectDTO (int id, String name) {
-        this.id = String.valueOf(id);
+    public SubjectDTO (String id, String name) {
+        this.id = id;
         this.name = name;
         this.numberclass = "Số buổi học: " +"13";
         this.startcourse = "Từ ngày: " +"2016-04-09";
