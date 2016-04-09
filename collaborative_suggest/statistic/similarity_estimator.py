@@ -14,9 +14,9 @@ def pearsonr(x, y):
     sum_x = float(sum(x))
     sum_y = float(sum(y))
     sum_x_sq = sum(map(lambda x: pow(x, 2), x))
-    sum_y_sq = sum(map(lambda y: pow(y, 2), y))
-    p_sum = sum(map(lambda x, y: x * y, x, y))
-    num = p_sum - (sum_x_sq * sum_y_sq / n)
+    sum_y_sq = sum(map(lambda x: pow(x, 2), y))
+    psum = sum(map(lambda x, y: x * y, x, y))  # itertools.imap
+    num = psum - (sum_x * sum_y/n)
     den = pow((sum_x_sq - pow(sum_x, 2) / n) * (sum_y_sq - pow(sum_y, 2) / n), 0.5)
     if den == 0:
         return 0
