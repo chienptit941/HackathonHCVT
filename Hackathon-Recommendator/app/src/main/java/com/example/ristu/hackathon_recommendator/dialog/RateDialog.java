@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.user.IUserActivity;
+import com.example.ristu.hackathon_recommendator.subject.ISubjectActivity;
 
 public class RateDialog extends Dialog {
     private ViewHolder holder;
-    private IUserActivity listenner;
+    private ISubjectActivity listenner;
     private SubjectDTO subjectDTO;
 
     public RateDialog(Context context) {
@@ -42,7 +42,7 @@ public class RateDialog extends Dialog {
         });
     }
 
-    public void setListener(IUserActivity listenner) {
+    public void setListener(ISubjectActivity listenner) {
         this.listenner = listenner;
     }
 

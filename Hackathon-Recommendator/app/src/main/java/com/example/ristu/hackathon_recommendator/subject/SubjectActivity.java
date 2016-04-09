@@ -1,18 +1,19 @@
-package com.example.ristu.hackathon_recommendator.user;
+package com.example.ristu.hackathon_recommendator.subject;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
+import com.example.ristu.hackathon_recommendator.dialog.RateDialog;
+import com.example.ristu.hackathon_recommendator.dialog.SubjectDetailDialog;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.subject.SubjectAdapter;
 import com.example.ristu.hackathon_recommendator.util.AppStorage;
 import com.example.ristu.hackathon_recommendator.util.Constants;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
@@ -24,19 +25,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ristu on 4/10/2016.
- */
-public class UserActivity extends AppCompatActivity {
-    private TextView name;
-    private TextView name_text;
-    private TextView interest;
-    private TextView interest_text;
-
+public class SubjectActivity extends AppCompatActivity implements ISubjectActivity {
     private static final String TAG = "SubjectActivity";
     private RecyclerView list;
-    private UserAdapter adapter;
+    private SubjectAdapter adapter;
     private RecyclerView.LayoutManager listLayoutManager;
+    private AppStorage appStorage;
     private View view;
 
     @Override
@@ -45,6 +39,8 @@ public class UserActivity extends AppCompatActivity {
 
         view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
         setContentView(view);
+
+        appStorage = AppStorage.getInstance();
 
         list = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -129,4 +125,44 @@ public class UserActivity extends AppCompatActivity {
             super.onPostExecute(result);
         }
     }
+
+    @Override
+    public void showSubjectDetail(SubjectDTO subjectDTO) {
+        SubjectDetailDialog dialog = new SubjectDetailDialog(this);
+        dialog.setListener(this);
+        dialog.setData(subjectDTO);
+        dialog.show();
+    }
+
+    @Override
+    public void showRate(SubjectDTO subjectDTO) {
+        RateDialog dialog = new RateDialog(this);
+        dialog.setListener(this);
+        dialog.setData(subjectDTO);
+        dialog.show();
+    }
+
+    @Override
+    public void rate(SubjectDTO subjectDTO) {
+        Snackbar snackbar = Snackbar.make(view, "rate " + subjectDTO.name + " success", Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
+    @Override
+    public void register(SubjectDTO subjectDTO) {
+        Snackbar snackbar = Snackbar.make(view, "Register subject " + subjectDTO.id + " success", Snackbar.LENGTH_SHORT);
+        snackbar.show();
+        String link = "http://" + Constants.IP + ":8080/course_register";
+        String query = "?user_id=a" + "&" + "course_id="+subjectDTO;
+        String url = link + query;
+//        DataTransfer.pushDataThroughUrl(url);
+        for (SubjectDTO item : appStorage.subjectDTOs) {
+            if (item.id.equals(subjectDTO.id)) {
+                item.isRegister = true;
+            }
+        }
+        adapter.setData(appStorage.subjectDTOs);
+    }
 }
+
+

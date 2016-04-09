@@ -1,4 +1,4 @@
-package com.example.ristu.hackathon_recommendator.user;
+package com.example.ristu.hackathon_recommendator.subject;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,14 +9,13 @@ import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.subject.ISubjectActivity;
 
 import java.util.List;
 
 /**
- * Created by ristu on 4/10/2016.
+ * Created by ristu on 4/9/2016.
  */
-public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
     private List<SubjectDTO> subjectDTOs;
     private ISubjectActivity listenner;
 
@@ -30,7 +29,7 @@ public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SubjectAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -46,7 +45,7 @@ public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.status.setText("");
 
 //        if (isRegister) {
-        holder.rate.setVisibility(View.VISIBLE);
+            holder.rate.setVisibility(View.VISIBLE);
 //        } else {
 //            holder.rate.setVisibility(View.INVISIBLE);
 //        }

@@ -44,4 +44,11 @@ public class DataTransfer {
             is.close();
         }
     }
+    public static void pushDataThroughUrl(String url) {
+        try {
+            new URL(url).openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

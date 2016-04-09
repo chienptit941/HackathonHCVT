@@ -1,11 +1,11 @@
-package com.example.ristu.hackathon_recommendator.user;
+package com.example.ristu.hackathon_recommendator.subject;
 
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
 
 /**
  * Created by ristu on 4/9/2016.
  */
-public interface IUserActivity {
+public interface ISubjectActivity {
     void showSubjectDetail(SubjectDTO subjectDTO);
 
     void showRate(SubjectDTO subjectDTO);

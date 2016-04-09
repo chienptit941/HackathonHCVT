@@ -24,11 +24,53 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!--start-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:scrollbars="vertical"
+        <RelativeLayout
+            android:id="@+id/user_profile_user_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/user_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Tung" />
+
+            <TextView
+                android:id="@+id/user_profile_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/user_profile_name"
+                android:text="Name:" />
+
+            <TextView
+                android:id="@+id/user_profile_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/user_profile_name"
+                android:text="Soccer, Football" />
+
+            <TextView
+                android:id="@+id/user_profile_interest_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_profile_name_text"
+                android:layout_toLeftOf="@id/user_profile_interest"
+                android:text="Interest:" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/user_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/user_profile_user_layout"
+            android:scrollbars="vertical" />
+        <Button
+            android:id="@+id/user_profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_recycler_view"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

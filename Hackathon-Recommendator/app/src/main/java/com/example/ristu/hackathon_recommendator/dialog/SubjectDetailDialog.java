@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.SubjectDTO;
-import com.example.ristu.hackathon_recommendator.user.IUserActivity;
+import com.example.ristu.hackathon_recommendator.subject.ISubjectActivity;
 import com.example.ristu.hackathon_recommendator.util.Constants;
 import com.example.ristu.hackathon_recommendator.util.DataTransfer;
 
@@ -26,7 +26,7 @@ import java.io.IOException;
 
 public class SubjectDetailDialog extends Dialog {
     private ViewHolder holder;
-    private IUserActivity listenner;
+    private ISubjectActivity listenner;
     private SubjectDTO subjectDTO;
 
     public SubjectDetailDialog(Context context) {
@@ -50,7 +50,7 @@ public class SubjectDetailDialog extends Dialog {
         });
     }
 
-    public void setListener(IUserActivity listenner) {
+    public void setListener(ISubjectActivity listenner) {
         this.listenner = listenner;
     }
 
@@ -60,7 +60,11 @@ public class SubjectDetailDialog extends Dialog {
         String query = "?course_id="+subjectDTO.id;
         String url = link + query;
         new GettingData().execute(url, "middle");
-
+        if (subjectDTO.isRegister) {
+            holder.register.setVisibility(View.GONE);
+        } else {
+            holder.register.setVisibility(View.VISIBLE);
+        }
         this.subjectDTO = subjectDTO;
 //
 //        holder.name.setText(subjectDTO.name);
@@ -68,12 +72,6 @@ public class SubjectDetailDialog extends Dialog {
 //        holder.startcourse.setText(subjectDTO.startcourse);
 //        holder.endcourse.setText(subjectDTO.endcourse);
 //        holder.numberclass.setText(subjectDTO.numberclass);
-//
-//        if (subjectDTO.isRegister) {
-//            holder.register.setVisibility(View.GONE);
-//        } else {
-//            holder.register.setVisibility(View.VISIBLE);
-//        }
     }
 
     public class GettingData extends AsyncTask<String, JSONObject, Void>
@@ -115,11 +113,11 @@ public class SubjectDetailDialog extends Dialog {
                 if(jsonObj.has("description"))
                     holder.description.setText(jsonObj.getString("description"));
                 if(jsonObj.has("startcourse"))
-                    holder.startcourse.setText(jsonObj.getString("startcourse"));
+                    holder.startcourse.setText("Ngày bắt đầu: "+jsonObj.getString("startcourse"));
                 if(jsonObj.has("endcourse"))
-                    holder.endcourse.setText(jsonObj.getString("endcourse"));
+                    holder.endcourse.setText("Ngày kết thúc: "+jsonObj.getString("endcourse"));
                 if(jsonObj.has("numberclass"))
-                    holder.numberclass.setText(jsonObj.getString("numberclass"));
+                    holder.numberclass.setText("Số buổi: "+jsonObj.getString("numberclass"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
