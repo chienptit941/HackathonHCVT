@@ -16,10 +16,9 @@ import java.util.List;
  */
 public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private List<UserDTO> subjectDTOs;
-    private IUserActivity listenner;
 
-    public UserAdapter(IUserActivity listenner) {
-        this.listenner = listenner;
+    public UserAdapter() {
+
     }
 
     public void setData(List<UserDTO> subjectDTOs) {

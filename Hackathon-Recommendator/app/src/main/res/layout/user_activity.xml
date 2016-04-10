@@ -1,76 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!--start-->
         <RelativeLayout
             android:id="@+id/user_profile_user_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/user_profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Tung" />
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/user_profile_name_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/user_profile_name"
                 android:text="Name:" />
 
             <TextView
-                android:id="@+id/user_profile_interest"
-                android:layout_width="wrap_content"
+                android:id="@+id/user_profile_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/user_profile_name_text"
+                android:text="Tung" />
+
+
+            <TextView
+                android:id="@+id/user_profile_interest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/user_profile_name"
+                android:layout_toLeftOf="@id/user_profile_interest"
                 android:text="Soccer, Football" />
 
             <TextView
                 android:id="@+id/user_profile_interest_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_profile_name_text"
-                android:layout_toLeftOf="@id/user_profile_interest"
                 android:text="Interest:" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/user_profile_user_layout"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:scrollbars="vertical" />
-        <Button
-            android:id="@+id/user_profile_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_recycler_view"/>
-    </RelativeLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/user_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Cai nut next Activity"/>
+        </TableRow>
+
+</LinearLayout>

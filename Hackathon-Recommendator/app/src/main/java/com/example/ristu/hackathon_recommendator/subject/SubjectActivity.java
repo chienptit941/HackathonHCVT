@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.ristu.hackathon_recommendator.R;
@@ -37,10 +36,12 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.subject_activity);
+
         Intent intent = getIntent();
 
-        view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
-        setContentView(view);
+//        view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
+//        setContentView(view);
 
         appStorage = AppStorage.getInstance();
 
@@ -155,7 +156,7 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
         Snackbar snackbar = Snackbar.make(view, "Register subject " + subjectDTO.id + " success", Snackbar.LENGTH_SHORT);
         snackbar.show();
         String link = "http://" + Constants.IP + ":8080/course_register";
-        String query = "?user_id=a" + "&" + "course_id="+subjectDTO;
+        String query = "?user_id=" + Constants.USER_ID + "&" + "course_id="+subjectDTO.id;
         String url = link + query;
 //        DataTransfer.pushDataThroughUrl(url);
         for (SubjectDTO item : appStorage.subjectDTOs) {

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,107 +21,105 @@ import com.example.ristu.hackathon_recommendator.util.DataTransfer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ristu on 4/10/2016.
  */
-public class UserActivity extends AppCompatActivity implements IUserActivity {
-    private TextView name;
-    private TextView name_text;
-    private TextView interest;
-    private TextView interest_text;
-    private Button suggest;
+public class UserActivity extends AppCompatActivity {
 
-    private static final String TAG = "SubjectActivity";
+
+    private static final String TAG = "UserActivity";
     private RecyclerView list;
     private UserAdapter adapter;
-    private RecyclerView.LayoutManager listLayoutManager;
     private AppStorage appStorage;
-    private View view;
+    private RecyclerView.LayoutManager listLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_activity);
+// /        view = LayoutInflater.from(this).inflate(R.layout.user_activity, null, false);
+//        setContentView(view);
         initView();
-        view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
-        setContentView(view);
-
-        list = (RecyclerView) findViewById(R.id.my_recycler_view);
+        list = (RecyclerView) findViewById(R.id.user_recycler_view);
 
         listLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(listLayoutManager);
 
-        adapter = new UserAdapter(this);
+        adapter = new UserAdapter();
         list.setAdapter(adapter);
+        Log.e(TAG, "test" );
 
 
 
 //        appStorage.subjectDTOs = SERVER RESPONSE
         String link = "http://" + Constants.IP + ":8080/user_profile";
-        String query = "?user_id=a";
+        String query = "?user_id="+Constants.USER_ID;
         String url = link + query;
         new GettingData().execute(url);
-        adapter.setData(appStorage.subjectDTOs2);
+//        adapter.setData(appStorage.subjectDTOs2);
     }
 
+    private TextView tvName;
+    private TextView tvNameText;
+    private TextView tvInterest;
+    private TextView tvInterest_text;
+    private Button btnSuggest;
     private void initView() {
-        suggest = (Button) findViewById(R.id.user_profile_button);
-        name = (TextView) findViewById(R.id.user_profile_name);
-        name_text = (TextView) findViewById(R.id.user_profile_name_text);
-        interest = (TextView) findViewById(R.id.user_profile_interest);
-        interest_text = (TextView) findViewById(R.id.user_profile_interest_text);
-        suggest.setOnClickListener(new View.OnClickListener() {
+        btnSuggest = (Button) findViewById(R.id.user_profile_button);
+        tvName = (TextView) findViewById(R.id.user_profile_name);
+        tvNameText = (TextView) findViewById(R.id.user_profile_name_text);
+        tvInterest = (TextView) findViewById(R.id.user_profile_interest);
+        tvInterest_text = (TextView) findViewById(R.id.user_profile_interest_text);
+        btnSuggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.i(TAG, "startActivity SubjectActivity.class");
                 Intent intent = new Intent(getApplicationContext(), SubjectActivity.class);
-                intent.putExtra("user_id","a");
+                intent.putExtra("user_id", Constants.USER_ID);
                 startActivity(intent);
             }
         });
     }
 
-    public class GettingData extends AsyncTask<String, JSONObject, Void>
-    {
+    public class GettingData extends AsyncTask<String, JSONObject, Void> {
         private String url;
 
         @Override
         protected void onPreExecute() {
-            // TODO Auto-generated method stub
+            Log.i(TAG, "GettingData: onPreExecute");
             super.onPreExecute();
         }
         @Override
         protected Void doInBackground(String... params) {
+            Log.i(TAG, "GettingData: doInBackground start");
             //Lấy URL truyền vào
-            url=params[0];
+            url = params[0];
             JSONObject jsonObj;
             try {
                 //đọc và chuyển về JSONObject
                 jsonObj = DataTransfer.readJsonFromUrl(url);
                 publishProgress(jsonObj);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (Exception e) {
+                Log.e(TAG, "GettingData: doInBackground ex: " + e.toString());
             }
+            Log.i(TAG, "GettingData: doInBackground end");
             return null;
         }
         @Override
         protected void onProgressUpdate(JSONObject... values) {
             super.onProgressUpdate(values);
+            Log.i(TAG, "GettingData: onProgressUpdate start");
             //ta cập nhật giao diện ở đây:
             JSONObject jsonObj=values[0];
             try {
                 List<UserDTO> subjects = new ArrayList();
-                if(jsonObj.has("name"))
-                    name.setText(jsonObj.getString("name"));
-                if(jsonObj.has("interest"))
-                    name.setText(jsonObj.getString("interest").replace('"', ' ').replace('[', ' ').replace(']', ' ').trim());
+                if(jsonObj.has("tvName"))
+                    tvName.setText(jsonObj.getString("tvName"));
+                if(jsonObj.has("tvInterest"))
+                    tvName.setText(jsonObj.getString("tvInterest").replace('"', ' ').replace('[', ' ').replace(']', ' ').trim());
 
                 if(jsonObj.has("rates")) {
                     ArrayList<UserDTO> arr = new ArrayList<>();
@@ -135,15 +133,16 @@ public class UserActivity extends AppCompatActivity implements IUserActivity {
                     appStorage.subjectDTOs2 = arr;
                 }
                 adapter.setData(appStorage.subjectDTOs2);
+                adapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Log.i(TAG, "GettingData: onProgressUpdate end");
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            // TODO Auto-generated method stub
             super.onPostExecute(result);
         }
     }
