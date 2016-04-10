@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.ristu.hackathon_recommendator.R;
@@ -37,11 +38,10 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.subject_activity);
-
+        view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
         Intent intent = getIntent();
 
-//        view = LayoutInflater.from(this).inflate(R.layout.subject_activity, null, false);
-//        setContentView(view);
+
 
         appStorage = AppStorage.getInstance();
 
@@ -98,14 +98,19 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
             try {
                 List<SubjectDTO> subjects = new ArrayList();
                 if(jsonObj.has("course_ids") && jsonObj.has("courses")) {
-                    StringBuilder ids = new StringBuilder(jsonObj.getString("courses").toString());
+                    Log.i(TAG, jsonObj.get("course_ids").toString()+ "||||"+jsonObj.getString("course_ids") );
+                    StringBuilder ids = new StringBuilder(jsonObj.getString("course_ids").toString());
                     StringBuilder sss = new StringBuilder(jsonObj.getString("courses").toString());
+                    Log.i(TAG, ids + "&&&&&&&" + sss);
                     sss.replace(0, 1, "");
                     ids.replace(0, 1, "");
+                    Log.i(TAG, ids + "&&&&&&&" + sss);
                     sss.replace(sss.length() - 1, sss.length(), "");
                     ids.replace(ids.length() - 1, ids.length(), "");
+                    Log.i(TAG, ids + "&&&&&&&" + sss);
                     String[] ssses = sss.toString().replace('"',' ').split(",");
                     String[] idses = ids.toString().replace('"',' ').split(",");
+                    Log.i(TAG, idses[0] + "&&&&&&&" + ssses[0]);
                     for (int i = 0; i < ssses.length; ++i) {
                         SubjectDTO subj = new SubjectDTO(idses[i].trim(), ssses[i].trim());
                         subj.isRegister=false;
@@ -153,6 +158,8 @@ public class SubjectActivity extends AppCompatActivity implements ISubjectActivi
 
     @Override
     public void register(SubjectDTO subjectDTO) {
+        if (subjectDTO.id != null)
+            Log.i(TAG, subjectDTO.id);
         Snackbar snackbar = Snackbar.make(view, "Register subject " + subjectDTO.id + " success", Snackbar.LENGTH_SHORT);
         snackbar.show();
         String link = "http://" + Constants.IP + ":8080/course_register";

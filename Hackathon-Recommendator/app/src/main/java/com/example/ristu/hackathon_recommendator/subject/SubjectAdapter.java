@@ -44,11 +44,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         holder.name.setText(name);
         holder.status.setText("");
 
-//        if (isRegister) {
+        if (isRegister) {
             holder.rate.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.rate.setVisibility(View.INVISIBLE);
-//        }
+        } else {
+            holder.rate.setVisibility(View.INVISIBLE);
+        }
 
         holder.rate.setOnClickListener(
                 new View.OnClickListener() {

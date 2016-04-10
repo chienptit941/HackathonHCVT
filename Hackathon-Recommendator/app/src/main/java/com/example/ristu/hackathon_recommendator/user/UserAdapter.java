@@ -1,5 +1,6 @@
 package com.example.ristu.hackathon_recommendator.user;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.ristu.hackathon_recommendator.R;
 import com.example.ristu.hackathon_recommendator.model.UserDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +18,10 @@ import java.util.List;
  */
 public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private List<UserDTO> subjectDTOs;
-
-    public UserAdapter() {
-
+    private LayoutInflater inflater;
+    public UserAdapter(Context context) {
+        inflater = LayoutInflater.from(context);
+        subjectDTOs = new ArrayList<>();
     }
 
     public void setData(List<UserDTO> subjectDTOs) {
@@ -28,13 +31,15 @@ public class UserAdapter  extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_item, parent, false);
+        View v = inflater.inflate(R.layout.user_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+
         final UserDTO subjectDTO = subjectDTOs.get(position);
         final String name = subjectDTO.name;
         final String rate= subjectDTO.rate;

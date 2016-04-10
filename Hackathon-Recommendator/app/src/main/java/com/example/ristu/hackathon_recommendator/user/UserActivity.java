@@ -43,12 +43,13 @@ public class UserActivity extends AppCompatActivity {
 // /        view = LayoutInflater.from(this).inflate(R.layout.user_activity, null, false);
 //        setContentView(view);
         initView();
+        appStorage = AppStorage.getInstance();
         list = (RecyclerView) findViewById(R.id.user_recycler_view);
 
         listLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(listLayoutManager);
 
-        adapter = new UserAdapter();
+        adapter = new UserAdapter(getApplicationContext());
         list.setAdapter(adapter);
         Log.e(TAG, "test" );
 
@@ -59,20 +60,16 @@ public class UserActivity extends AppCompatActivity {
         String query = "?user_id="+Constants.USER_ID;
         String url = link + query;
         new GettingData().execute(url);
-//        adapter.setData(appStorage.subjectDTOs2);
+        adapter.setData(appStorage.subjectDTOs2);
     }
 
     private TextView tvName;
-    private TextView tvNameText;
     private TextView tvInterest;
-    private TextView tvInterest_text;
     private Button btnSuggest;
     private void initView() {
         btnSuggest = (Button) findViewById(R.id.user_profile_button);
         tvName = (TextView) findViewById(R.id.user_profile_name);
-        tvNameText = (TextView) findViewById(R.id.user_profile_name_text);
         tvInterest = (TextView) findViewById(R.id.user_profile_interest);
-        tvInterest_text = (TextView) findViewById(R.id.user_profile_interest_text);
         btnSuggest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,18 +113,25 @@ public class UserActivity extends AppCompatActivity {
             JSONObject jsonObj=values[0];
             try {
                 List<UserDTO> subjects = new ArrayList();
-                if(jsonObj.has("tvName"))
-                    tvName.setText(jsonObj.getString("tvName"));
-                if(jsonObj.has("tvInterest"))
-                    tvName.setText(jsonObj.getString("tvInterest").replace('"', ' ').replace('[', ' ').replace(']', ' ').trim());
+                if(jsonObj.has("name"))
+                    tvName.setText(jsonObj.getString("name"));
+                if(jsonObj.has("interests"))
+                    tvInterest.setText(jsonObj.getString("interests").replace('"', ' ').replace('[', ' ').replace(']', ' ').trim());
 
                 if(jsonObj.has("rates")) {
                     ArrayList<UserDTO> arr = new ArrayList<>();
-                    String[] rates = jsonObj.getString("rate").split(",");
+                    String[] rates = jsonObj.getString("rates").split(",");
 
                     for (String item: rates) {
                         String[] kv = item.replace('"', ' ').replace('{', ' ').replace('}', ' ').split(":");
-                        UserDTO temp = new UserDTO(kv[0], kv[1]);
+                        String x = "";
+                        String y = "";
+                        for (int i = 0; i < kv.length ; ++i) {
+                            Log.i(TAG, kv[i]);
+                            if (i == 0) x = kv[i];
+                            else y = kv[i];
+                        }
+                        UserDTO temp = new UserDTO(x, y);
                         arr.add(temp);
                     }
                     appStorage.subjectDTOs2 = arr;

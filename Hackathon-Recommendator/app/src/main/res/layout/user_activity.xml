@@ -2,18 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="10dp">
 
 
+    <!--start-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!--start-->
-        <RelativeLayout
-            android:id="@+id/user_profile_user_layout"
+        <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/user_profile_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name:" />
@@ -22,42 +28,60 @@
                 android:id="@+id/user_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/user_profile_name_text"
-                android:text="Tung" />
-
-
-            <TextView
-                android:id="@+id/user_profile_interest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/user_profile_name"
-                android:layout_toLeftOf="@id/user_profile_interest"
-                android:text="Soccer, Football" />
-
-            <TextView
-                android:id="@+id/user_profile_interest_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/user_profile_name_text"
-                android:text="Interest:" />
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical" />
+                android:text="Tung"
+                android:textColor="@color/colorAccent"/>
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center">
-            <Button
-                android:id="@+id/user_profile_button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Cai nut next Activity"/>
+                android:layout_height="wrap_content"
+                android:text="Interest:" />
+
+            <TextView
+                android:id="@+id/user_profile_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Soccer, Football"
+                android:textColor="@color/colorPrimary"/>
+
+
         </TableRow>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:background="@android:color/holo_blue_bright" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/user_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center">
+
+        <Button
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/user_profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Recommend"
+            android:textColor="@android:color/white"
+            android:background="#e93e35"/>
+        @drawable/btn_recmd
+    </TableRow>
 
 </LinearLayout>

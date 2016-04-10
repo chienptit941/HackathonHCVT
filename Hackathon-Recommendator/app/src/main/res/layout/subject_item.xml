@@ -1,43 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:background="#c4dcf5"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/user_subject_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:singleLine="true"
-        android:text="Rate"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:visibility="invisible"/>
-
-
-    <TextView
-        android:id="@+id/user_subject_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/user_subject_rate"
-        android:singleLine="true"
-        android:text="Status"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/user_subject_name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/user_subject_status"
-        android:text="subject name"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
-</RelativeLayout>
+        android:background="#c4dcf5"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/user_subject_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:text="Rate"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:visibility="invisible"
+            android:background="#e93e35"/>
+
+
+        <TextView
+            android:id="@+id/user_subject_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/user_subject_rate"
+            android:singleLine="true"
+            android:text="Status"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/user_subject_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/user_subject_status"
+            android:text="subject name"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/black" />
+</LinearLayout>
