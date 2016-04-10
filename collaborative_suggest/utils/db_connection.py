@@ -4,6 +4,7 @@
     
 """
 import MySQLdb
+import re
 
 
 def get_connection(host='192.168.1.216', user='root', password='toor', db_name='hcvt'):
@@ -65,6 +66,9 @@ def get_user_profile(user_id):
                 interests = str_encode(result[2]).split(',')
             course_name = str_encode(result[3])
             course_rate = str(result[4])
+            course_name = re.sub(':', ' -', course_name)
+            print(course_name)
+            print(course_rate)
             rates[course_name] = course_rate
     parsed_results = {'name': name, 'interests': interests, 'rates': rates}
 
