@@ -74,4 +74,3 @@ def get_sim_neighbors(training_set, test_instance, k, threshold=0.0, dist_func=N
             neighbors.append(distances[x][2])
     return neighbor_indices, neighbor_distances, neighbors
 
-
