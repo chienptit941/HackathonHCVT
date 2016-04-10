@@ -91,7 +91,8 @@ def get_hot_courses():
     try:
         u_id = request.args.get('user_id')
         output = {'courses': ['A', 'B', 'C', 'D'], 'course_ids': [1, 2, 3, 4]}
-    except:
+    except Exception as inst:
+        print(inst)
         output = 'Server failed'
     return json.dumps(output)
 
@@ -102,7 +103,8 @@ def get_studied_courses():
     try:
         u_id = request.args.get('user_id')
         output = {'courses': ['A', 'B', 'C'], 'statuses': ['finished', 'finished', 'finished']}
-    except:
+    except Exception as inst:
+        print(inst)
         output = 'Server failed'
     return json.dumps(output)
 
@@ -134,7 +136,7 @@ def get_user_profile():
         #           'rates': rates}
         output = db_connection.get_user_profile(user_id=u_id)
     except Exception as inst:
-        print inst
+        print(inst)
         output = 'Server failed'
     return json.dumps(output)
 
@@ -154,7 +156,8 @@ def get_course_detail():
         output = {'course_id': course_id, 'name': name, 'numberclass': numberclass,
                   'startcourse': startcourse, 'endcourse': endcourse, 'category': category,
                   'description': description}
-    except:
+    except Exception as inst:
+        print(inst)
         output = 'Server failed'
     return json.dumps(output)
 
@@ -166,7 +169,8 @@ def course_register():
         course_id = request.args.get('course_id')
         user_id = request.args.get('user_id')
         output = 'Successful'
-    except:
+    except Exception as inst:
+        print(inst)
         output = 'Failed'
     return json.dumps(output)
 
