@@ -61,7 +61,8 @@ def get_user_profile(user_id):
     if len(results) > 0:
         for result in results:
             name = str_encode(result[0]) + str_encode(result[1])
-            interests = str_encode(result[2]).split(',')
+            if result[2] is not None:
+                interests = str_encode(result[2]).split(',')
             course_name = str_encode(result[3])
             course_rate = str(result[4])
             rates[course_name] = course_rate
