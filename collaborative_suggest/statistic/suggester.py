@@ -96,7 +96,7 @@ def get_related_courses_and_rates(user_id, is_train=False):
     return related_courses, predict_course_rates
 
 
-def suggest_list(user_id, is_train=False, rate_threshold=3.5, file_path='./cache'):
+def suggest_list(user_id, is_train=False, rate_threshold=3.5, file_path='./cache', k_top=10):
     if not os.path.exists(file_path):
         os.makedirs(file_path)
     file_path += '/suggest' + str(user_id)
@@ -106,18 +106,35 @@ def suggest_list(user_id, is_train=False, rate_threshold=3.5, file_path='./cache
         # saved_data = pickle.load(open(file_path, 'rb'))
         suggested_id_list = saved_data[0]
         suggested_courses = saved_data[1]
+        course_rate_list = saved_data[2]
     else:
         related_courses, course_rates = get_related_courses_and_rates(user_id, is_train=is_train)
         suggested_id_list = []
+        course_rate_list = []
         for rl_cs_id, rl_cs_ in enumerate(related_courses):
             if course_rates[rl_cs_id] > rate_threshold:
                 suggested_id_list.append(rl_cs_)
+                course_rate_list.append(course_rates[rl_cs_id])
         suggested_courses = db_connection.get_course_names(course_ids=suggested_id_list)
-        save_data = [suggested_id_list, suggested_courses]
+        save_data = [suggested_id_list, suggested_courses, course_rate_list]
 
         with open(file_path, 'wb') as handle:
             pickle.dump(save_data, handle)
-    return suggested_id_list, suggested_courses
+    # return suggested_id_list, suggested_courses
+    recommend_ids = []
+    recommend_courses = []
+    course_rate_zip = zip(course_rate_list, suggested_id_list, suggested_courses)
+    course_rate_zip.sort(key=lambda tup: tup[0])
+    count = 0
+    for course_rate_ in course_rate_zip:
+        print(course_rate_)
+        if count < k_top:
+            recommend_ids.append(course_rate_[1])
+            recommend_courses.append(course_rate_[2])
+        else:
+            break
+        count += 1
+    return recommend_ids, recommend_courses
 
 
 def main():
