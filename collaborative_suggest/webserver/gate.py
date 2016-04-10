@@ -116,7 +116,8 @@ def get_suggested_courses():
         # courses = ['A', 'B', 'C', 'D']
         course_ids, courses = suggester.suggest_list(user_id=u_id)
         output = {'courses': courses, 'course_ids': course_ids}
-    except:
+    except Exception as inst:
+        print(inst)
         output = 'Server failed'
     return json.dumps(output)
 
@@ -132,7 +133,8 @@ def get_user_profile():
         # output = {'user_id': u_id, 'name': name, 'interests': interests,
         #           'rates': rates}
         output = db_connection.get_user_profile(user_id=u_id)
-    except:
+    except Exception as inst:
+        print inst
         output = 'Server failed'
     return json.dumps(output)
 

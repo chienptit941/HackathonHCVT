@@ -4,6 +4,8 @@ import numpy as np
 from collaborative_suggest.utils import data_helpers
 from collaborative_suggest.regression import rnn_app
 from collaborative_suggest.utils import db_connection
+import pickle
+import os
 
 
 def predict_r_u_i(u, neighbors, neighbor_distances, neighbor_rate_i):
@@ -94,13 +96,27 @@ def get_related_courses_and_rates(user_id, is_train=False):
     return related_courses, predict_course_rates
 
 
-def suggest_list(user_id, is_train=False, rate_threshold=3.5):
-    related_courses, course_rates = get_related_courses_and_rates(user_id, is_train=is_train)
-    suggested_id_list = []
-    for rl_cs_id, rl_cs_ in enumerate(related_courses):
-        if course_rates[rl_cs_id] > rate_threshold:
-            suggested_id_list.append(rl_cs_)
-    suggested_courses = db_connection.get_course_names(course_ids=suggested_id_list)
+def suggest_list(user_id, is_train=False, rate_threshold=3.5, file_path='./cache'):
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+    file_path += '/suggest' + str(user_id)
+    if os.path.isfile(file_path):
+        with open(file_path, 'rb') as handle:
+            saved_data = pickle.load(handle)
+        # saved_data = pickle.load(open(file_path, 'rb'))
+        suggested_id_list = saved_data[0]
+        suggested_courses = saved_data[1]
+    else:
+        related_courses, course_rates = get_related_courses_and_rates(user_id, is_train=is_train)
+        suggested_id_list = []
+        for rl_cs_id, rl_cs_ in enumerate(related_courses):
+            if course_rates[rl_cs_id] > rate_threshold:
+                suggested_id_list.append(rl_cs_)
+        suggested_courses = db_connection.get_course_names(course_ids=suggested_id_list)
+        save_data = [suggested_id_list, suggested_courses]
+
+        with open(file_path, 'wb') as handle:
+            pickle.dump(save_data, handle)
     return suggested_id_list, suggested_courses
 
 
